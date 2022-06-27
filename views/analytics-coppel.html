@@ -1,0 +1,46 @@
+
+<br/>
+<form class="ui form stacked red padded segment" enctype="multipart/form-data">
+	<h1 class="ui header large dividing"> Cargar archivos </h1>
+	
+		<div class="field" ng-if="coppel.showInputFile">
+		  <label>Seleccine uno o más archivos</label>
+		  <input  accept="text/plain" type="file" multiple="true" ng-model="files_coppel" id="uploaded_file" name="uploaded_file"></input>
+		</div>
+
+	<button ng-if="coppel.showInputFile" class="ui button blue" type="button" ng-click="coppel.analizeFiles();"><i class="icon cogs"></i>Analizar</button>
+	<button ng-if="!coppel.showInputFile" class="ui button red" type="button" ng-click="coppel.newAnalytics();"><i class="icon cogs"></i>Nuevo análisis</button>
+	<button ng-if="!coppel.showInputFile" class="ui button green" type="button" ng-click="coppel.downloadReport();"><i class="icon file excel outline"></i>Descargar reporte</button>
+
+	<div ng-if="coppel.finishProccess" >
+		<table id="results_table">
+			<thead>
+				<tr>
+					<th>Text</th>
+					<th width="5%" align="center">Polarity</th>
+					<th width="5%" align="center">Type</th>
+					<th width="5%" align="center">Total sentences</th>
+					<th width="15%" align="center" ng-repeat="(key, value) in coppel.headerSentences">{{value.title}}</th>
+				</tr>
+			</thead>
+			<tbody class="body-table">
+				<tr ng-repeat="(key, row) in coppel.comments">
+					<td valign="top">
+						<div class="container-text-table">
+							{{row.text}}
+						</div>
+					</td>
+					<td valign="top" align="center">{{row.data.result.polarity}}</td>
+					<td valign="top" align="center">{{row.data.result.type}}</td>
+					<td valign="top" align="center">{{row.data.sentences.length}}</td>
+					<td valign="top" ng-repeat="(k, v) in coppel.headerSentences">
+						<div ng-if="row.data.sentences[v.indx]" class="container-text-table-sentence">
+							{{row.data.sentences[v.indx].sentence}}
+						</div>					
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	
+</form>
